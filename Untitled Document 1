@@ -1,0 +1,179 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{}\chead{}\rhead{}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+\usepackage{pgf}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+\title{MA351-Assignment 1\\ Formal Languages and Automata Theory}
+\author{Sourav Bikash\\11012338}
+%\date{} % Activate to display a given date or no date (if empty),
+         % otherwise the current date is printed 
+
+\begin{document}
+\maketitle
+
+\section{Question 2.3}
+
+
+
+\subsection{Part A-The DFA}
+
+States correspond to the eight combinations of switch positions, and also must indicate whether the previous roll came out at D, i.e., whether the previous input was accepted. Let 0 represent a position to the left (as in the diagram) and 1 a position to the right. Each state can be represented by a sequence of three 0's or 1's, representing the directions of the three switches, in order from left to right. We follow these three bits by either a indicating it is an accepting state or r, indicating rejection. Of the 16 possible states, it turns out that only 13 are accessible from the initial state, 000r.
+
+
+
+\subsection{The transition table}
+	The following is the transition table for the 13 states accessible from 000r.
+\begin{center}
+\begin{tabular}{ | l || c | r| }
+State & A & B \\ \hline
+000r &    100r &	011r \\
+*000a &	100r &	011r \\
+001a$*$	 & 101r &	000a \\
+010r	& 110r &	001a \\
+010a$*$	 &110r &	001a \\
+011r &	111r &	010a\\
+100r & 010r &	111r \\
+100a$*$	 & 010r &	111r \\
+101r &	011r &	100a \\
+101a$*$	 & 011r &	100a \\
+110r &	000a &	101a \\
+110a$*$	 & 000a	& 101a \\
+111r &	001a &	110a \\ \hline
+\end{tabular}
+\end{center}
+
+The final/accepting states are marked by $*$ symbol.
+\newpage 
+
+\section{Question 2.6}
+
+\subsection{Part A}
+
+ This DFA accepts strings of the form  000.....00011111...1. In regular expression notation 0$\textsuperscript{*}$1$\textsuperscript{*}$.
+
+\subsection{Part B}
+
+All strings of zeros and one ending with 101. In regular expression notation $(1+0)\textsuperscript{*}$101.
+
+
+\section {Question 2.7}
+
+\subsection{Informal Proof}
+
+1) If for a string x the automata enters the state $q_3$ it is clear that the string is rejected. This happens iff the string contains unequal number of ones and zeros. So consider that in this case the string x is \textit{improper}. \\
+2) If the string x enters the state $q_0$ implies that it is accepted. Thus x contains equal number of 1s and 0s. at this point. This is also the starting state. Consider this x as \textit{proper}. \\
+3) Let x be a proper string. And y be substring of x such that $\delta(q_0,y)=q_0$. When next input is 0, it proceeds to state $q_1$. At this point the substring contains one more zero than the total number of ones. If the input is 1, it proceeds to state $q_2$. At this point the substring contains one more one than the total number of zeros.
+
+\subsection{Mathematical Proof}
+
+For the given question we say that a string is \textit{proper} if each prefix of x has at most one more zero than one and at most one more 1 than 0. We argue by induction on the lenght of the string x that: \\
+1) $\delta(q_0,x)=q_0$ iff x is proper and contains an equal number of 0s and 1s. \\
+2) $\delta(q_0,x)=q_1$ iff x is proper and contains one more 0 than 1s. \\
+3) $\delta(q_0,x)=q_2$ iff x is proper and contains one more 1 than 0s. \\
+4) $\delta(q_0,x)=q_3$ iff x is not proper. \\
+The induction hypothesis is stronger than a bare notion and an informal proof. Conditions (2),(3), and (4) are added to allow the induction to go through. \\
+We prove the iff portion of (1) through (4) first. The basis of induction, $|x|=0$, follows since the empty string has an equal number of 0's and 1's and $\delta(q_0,\epsilon)=q_0$. \\
+Assume the induction hypothesis is true for all x, $|x|<n,n\geq1$. Consider a string y of length n, such that y is proper. First considerthe case the y ends in 0. Then y=x0, where x is proper and has one more 1 than 0s. Thus  $\delta(q_0,x)=q_2$. Hence $\delta(q_0,y)=\delta(q_0,x0)=\delta(q_2,0)=q_0$. \\
+The case where y ends in a 1 is handled similarly.
+Next consider a string y, $|y|=n$ such that y is proper and has one more 0 than 1. If y=x0, then x has two more 0s than 1s, contradicting the fact that y is proper. Thus, y =x1, where x is proper and has an equal number of zeros and ones. By induction hypothesis, $\delta(q_0,x)=q_0$; hence $\delta(q_0,y)=q_1$. The situation where y is proper and has one more 1 than 0, and the situation where y is not proper is treated similarly.\\
+We must now show that strings reaching each state have the interpretations given in state (1) through (4).Suppose that $\delta(q_0,y)=q_0$ and $|y|\geq1$. If y=x0, then $\delta(q_0,x)=q_2$, since $q_2$ is the only state with a 0-transition to $q_0$. Thus by induction hypothesis x is proper and has one more 1 than 0. Thus y is proper and has an equal number of 0s and 1s. The case where y ends in a 1 is similar, as are the cases $\delta(q_0,y)=q_1,q_2, or q_3$.
+
+\section {Question 2.9}
+ 
+\subsection{Part A}
+
+Given NFA is  $(Q_a, \{0,1\}, \hat{\delta_1}, [p], F_a)$. Where $Q_a =\{p,q,r,s\}, F_a=\{s\}$.
+The resulting DFA transition table with the possible states is tabulated below.
+
+ \begin{center} 
+ \begin{tabular}{|c||c|c|}
+    State &0 &1 \\ \hline
+    $[p]$ &$[p,q]$ &$[p]$\\
+    $[p,q]$ &$[p,q,r]$ &$[p,r]$\\
+    $[p,r]$ &$[p,q,s]$ &$[p]$\\
+    $[p,s]*$ &$[p,q,s]$ &$[p,s]$\\
+    $[p,q,r]$ &$[p,q,r,s]$ &$[p,r]$\\
+    $[p,q,s]*$ &$[p,q,r,s]$ &$[p,r,s]$\\
+    $[p,r,s]*$ &$[p,q,s]$ &$[p,s]$\\
+    $[p,q,r,s]*$ &$[p,q,r,s]$ &$[p,r,s]$\\ \hline
+    \end{tabular} 
+\end{center}
+
+Therefore the final accepting states are  $F_a = \{ [p,s], [p,q,s], [p,r,s], [p,q,r,s] \}$
+
+\subsection{Part B}
+
+Given NFA is $(Q_b, \{0,1\}, \hat{\delta_2}, [p], F_b)$. Where $Q_a =\{p,q,r,s\}, F_a=\{q,s\}$.
+The resulting DFA transition table with the possible states is tabulated below.
+
+\begin{center} 
+\begin{tabular}{|c||c|c|}
+    State &0 &1 \\ \hline
+    $[p]$ &$[q,s]$ &$[q]$ \\
+    $[q]$ &$[r]$ &$[q,r]$ \\
+    $[r]$ &$[s]$ &$[p]$ \\
+    $[s]$ &$\phi$ &$[p]$ \\
+    $[q,r]$ &$[r,s]$ &$[p,q,r]$ \\
+    $[q,s]$ &$[r]$ &$[p,q,r]$ \\
+    $[r,s]$ &$[s]$ &$[p]$ \\
+    $[p,q,r]$ &$[q,r,s]$ &$[p,q,r]$ \\
+    $[q,r,s]$ &$[r,s]$ &$[p,q,r]$ \\ \hline
+    \end{tabular}
+ \end{center}
+
+Therefore the final accepting states are  $F_b = \{ [q], [s], [q,s], [q,r], [r,s], [p,q,r], [q,r,s] \}$
+
+\end{document}
